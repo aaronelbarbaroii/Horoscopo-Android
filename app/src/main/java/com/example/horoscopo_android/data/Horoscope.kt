@@ -1,4 +1,6 @@
-package com.example.horoscopo_android
+package com.example.horoscopo_android.data
+
+import com.example.horoscopo_android.R
 
 data class Horoscope (
     val id: String,
@@ -22,6 +24,10 @@ data class Horoscope (
                 Horoscope("aquarius", R.string.horoscope_name_aquarius, R.string.horoscope_date_aquarius, R.drawable.aquarius_icon),
                 Horoscope("pisces", R.string.horoscope_name_pisces, R.string.horoscope_date_pisces, R.drawable.pisces_icon)
             )
+        }
+
+        fun getById(id: String): Horoscope {
+            return getAll().first{ it.id == id}
         }
     }
 }
