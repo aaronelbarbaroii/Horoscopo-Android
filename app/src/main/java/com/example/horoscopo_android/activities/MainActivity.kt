@@ -2,6 +2,8 @@ package com.example.horoscopo_android.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.horoscopo_android.data.Horoscope
 import com.example.horoscopo_android.adapters.HorosocopeAdapter
 import com.example.horoscopo_android.R
+import android.util.Log
+import androidx.appcompat.widget.SearchView
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
 
         val adapter = HorosocopeAdapter(horoscopeList, { position ->
-            val horoscopo = horoscopeList[position]
-            goToDatail(horoscopo)
+            val horoscope = horoscopeList[position]
+            goToDetail(this, horoscope)
         })
 
         recyclerView.adapter = adapter
@@ -41,10 +45,36 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun goToDatail(horoscope: Horoscope){
-        val intent = Intent(this, DetailActivity::class.java)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.acdtivity_main_menu, menu)
+
+        val searchView = menu!!.findItem(R.id.action_search).actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.i("SEARCH", "onQueryTextSubmit: $query")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // TODO : Filtrar la lista de horóscopos y mostrarlos
+                return true
+            }
+
+        })
+
+        return true
+    }
+
+
+
+
+
+    fun goToDetail(mainActivity: MainActivity, horoscope: Horoscope) {
+        val intent = Intent(mainActivity, DetailActivity::class.java)
         intent.putExtra("HOROSCOPE_ID", horoscope.id)
-        startActivity(intent)
+        mainActivity.startActivity(intent)
     }
 
 }
