@@ -19,8 +19,9 @@ import androidx.appcompat.widget.SearchView
 class MainActivity : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
+    lateinit var adapter: HorosocopeAdapter
 
-    val horoscopeList: List<Horoscope> = Horoscope.Companion.getAll()
+    var horoscopeList: List<Horoscope> = Horoscope.Companion.getAll()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +33,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        supportActionBar?.setTitle(R.string.activity_name_title)
+
         recyclerView = findViewById(R.id.recyclerView)
 
-        val adapter = HorosocopeAdapter(horoscopeList, { position ->
+        adapter = HorosocopeAdapter(horoscopeList, { position ->
             val horoscope = horoscopeList[position]
             goToDetail(this, horoscope)
         })
@@ -53,12 +56,16 @@ class MainActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.i("SEARCH", "onQueryTextSubmit: $query")
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO : Filtrar la lista de horóscopos y mostrarlos
+            override fun onQueryTextChange(newText: String): Boolean {
+                horoscopeList = Horoscope.getAll().filter {
+                    getString(it.name).contains(newText, true)
+                            || getString(it.dates).contains(newText, true)
+                }
+
+                adapter.updateItems(horoscopeList)
                 return true
             }
 
@@ -66,9 +73,6 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-
-
-
 
 
     fun goToDetail(mainActivity: MainActivity, horoscope: Horoscope) {

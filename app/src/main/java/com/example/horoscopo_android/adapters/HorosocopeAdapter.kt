@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Transition
 import com.example.horoscopo_android.R
 import com.example.horoscopo_android.data.Horoscope
 
 class HorosocopeAdapter(
-    val items: List<Horoscope>,
+    var items: List<Horoscope>,
     val onClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<HorosocopeViewHolder>() {
 
@@ -39,6 +40,11 @@ class HorosocopeAdapter(
     // Cuantos elemntos se quieren listar
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun updateItems(items: List<Horoscope>){
+        this.items = items
+        notifyDataSetChanged()
     }
 
 }
