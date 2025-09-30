@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: HorosocopeAdapter
 
-    var horoscopeList: List<Horoscope> = Horoscope.Companion.getAll()
+    var horoscopeList: List<Horoscope> = Horoscope.getAll()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        adapter.notifyDataSetChanged()
 
     }
 

@@ -12,12 +12,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.horoscopo_android.utils.SessionManager
 
 class DetailActivity : AppCompatActivity() {
 
     lateinit var nameTextView: TextView
     lateinit var dateTextView: TextView
     lateinit var iconImageView: ImageView
+    lateinit var horoscope: Horoscope
+    lateinit var session: SessionManager
+    lateinit var favoriteItem: MenuItem
+    var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +34,18 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
+       session = SessionManager(this)
+
        val id =  intent.getStringExtra("HOROSCOPE_ID")!!
+
+        isFavorite = session.isFavorite(id)
+
 
         nameTextView = findViewById(R.id.nameTextView)
         dateTextView = findViewById(R.id.dateTextView)
         iconImageView = findViewById(R.id.iconImageView)
 
-        val horoscope = Horoscope.getById(id)
+        horoscope = Horoscope.getById(id)
 
         nameTextView.setText(horoscope.name)
         dateTextView.setText(horoscope.dates)
@@ -46,15 +56,27 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setSubtitle(horoscope.dates)
 
     }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
         menuInflater.inflate(R.menu.activity_detail_menu, menu)
+
+        favoriteItem = menu.findItem(R.id.action_favorite)
+        setFavoriteMenu()
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.action_favorite -> {
-                Log.i("MENU", "He pulsado el menú facorito")
+                isFavorite = !isFavorite
+                if(isFavorite){
+                    session.setFavorite(horoscope.id)
+                }
+                else {
+                    session.setFavorite("")
+                }
+                setFavoriteMenu()
                 true
             }
             R.id.action_share -> {
@@ -66,6 +88,15 @@ class DetailActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun setFavoriteMenu(){
+        if(isFavorite){
+            favoriteItem.setIcon(R.drawable.ic_menu_favorite_selected)
+        }
+        else {
+            favoriteItem.setIcon(R.drawable.ic_menu_favorite)
         }
     }
 }
