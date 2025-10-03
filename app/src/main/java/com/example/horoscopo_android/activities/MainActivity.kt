@@ -15,6 +15,7 @@ import com.example.horoscopo_android.adapters.HorosocopeAdapter
 import com.example.horoscopo_android.R
 import android.util.Log
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.GridLayoutManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.layoutManager = GridLayoutManager(this, 2)
     }
 
 
@@ -52,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         adapter.notifyDataSetChanged()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
