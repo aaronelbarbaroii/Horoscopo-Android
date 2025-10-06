@@ -56,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
-        isFavorite = session.isFavorite(id)
+        isFavorite = session.isFavorite(id, id)
 
 
         nameTextView = findViewById(R.id.nameTextView)
@@ -113,9 +113,11 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_favorite -> {
                 isFavorite = !isFavorite
                 if (isFavorite) {
-                    session.setFavorite(horoscope.id)
+//                    session.setFavorite(horoscope.id)
+                    session.setFavorite(horoscope.id, horoscope.id)
                 } else {
-                    session.setFavorite("")
+//                    session.setFavorite("")
+                    session.setFavorite("", horoscope.id)
                 }
                 setFavoriteMenu()
                 true

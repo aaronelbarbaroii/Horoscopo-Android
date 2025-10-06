@@ -65,7 +65,7 @@ class HorosocopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         iconImageView.setImageResource(horoscope.icon)
 
         val session = SessionManager(itemView.context)
-        if(session.isFavorite(horoscope.id)){
+        if(session.isFavorite(horoscope.id, horoscope.id)){
             favoriteImageView.visibility = View.VISIBLE
 //            favoriteImageView.isVisible = true
         }
