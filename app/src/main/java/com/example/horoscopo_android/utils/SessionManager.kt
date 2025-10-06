@@ -13,11 +13,11 @@ class SessionManager(context: Context) {
         editor.apply()
     }
 
-    fun getFavorite(horoscopeId: String, claveId: String): String {
+    fun getFavorite(claveId: String): String {
         return sharedPreferences.getString("$claveId", "")!!
     }
 
     fun isFavorite(horoscopeId: String, claveId: String): Boolean {
-        return horoscopeId == getFavorite(horoscopeId, horoscopeId)
+        return horoscopeId == getFavorite(horoscopeId)
     }
 }
