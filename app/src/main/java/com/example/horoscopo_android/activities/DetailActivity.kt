@@ -139,6 +139,15 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+
+    fun setFavoriteMenu() {
+        if (isFavorite) {
+            favoriteItem.setIcon(R.drawable.ic_menu_favorite_selected)
+        } else {
+            favoriteItem.setIcon(R.drawable.ic_menu_favorite)
+        }
+    }
+
     private fun shared(texto: String) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -148,15 +157,6 @@ class DetailActivity : AppCompatActivity() {
 
         val shareIntent = Intent.createChooser(sendIntent, null)
         startActivity(shareIntent)
-    }
-
-
-    fun setFavoriteMenu() {
-        if (isFavorite) {
-            favoriteItem.setIcon(R.drawable.ic_menu_favorite_selected)
-        } else {
-            favoriteItem.setIcon(R.drawable.ic_menu_favorite)
-        }
     }
 
     fun getHoroscopeLuck(period: String = "daily") {
@@ -208,7 +208,6 @@ class DetailActivity : AppCompatActivity() {
         reader.close()
         return response.toString()
     }
-
 
 
 }
