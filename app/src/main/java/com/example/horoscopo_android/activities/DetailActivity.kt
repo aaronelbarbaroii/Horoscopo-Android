@@ -1,5 +1,6 @@
 package com.example.horoscopo_android.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,6 @@ import android.widget.TextView
 import com.example.horoscopo_android.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
-        isFavorite = session.isFavorite(id, id)
+        isFavorite = session.isFavorite(id)
 
 
         nameTextView = findViewById(R.id.nameTextView)
@@ -124,7 +124,9 @@ class DetailActivity : AppCompatActivity() {
             }
 
             R.id.action_share -> {
-                Log.i("MENU", "He pulsado el menú compartir")
+//                Log.i("MENU", "He pulsado el menú compartir")
+                val texto = horoscopeLuckTextView.text.toString()
+                shared(texto)
                 true
             }
 
@@ -137,6 +139,16 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun shared(texto: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "$texto")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
 
 
     fun setFavoriteMenu() {
@@ -196,5 +208,7 @@ class DetailActivity : AppCompatActivity() {
         reader.close()
         return response.toString()
     }
+
+
 
 }

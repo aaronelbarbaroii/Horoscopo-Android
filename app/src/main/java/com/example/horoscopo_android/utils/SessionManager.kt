@@ -17,7 +17,7 @@ class SessionManager(context: Context) {
         return sharedPreferences.getString("$claveId", "")!!
     }
 
-    fun isFavorite(horoscopeId: String, claveId: String): Boolean {
+    fun isFavorite(horoscopeId: String): Boolean {
         return horoscopeId == getFavorite(horoscopeId)
     }
 }
